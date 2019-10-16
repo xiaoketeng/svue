@@ -40,11 +40,10 @@ export default {
     },
     data() {
         return {
-            cart:[]
+            cart: JSON.parse(localStorage.getItem('cart')) || []
         };
     },
     created(){
-        console.log(localStorage.getItem('cart')?localStorage.getItem('cart'):'0');
         //监听事件
         this.$bus.$on('addCart',good=>{
             this.addCart(good)
@@ -60,9 +59,18 @@ export default {
             },0);
         }
     },
-    watch:{
-        cart(newValue){
-            localStorage.setItem('cart',newValue);
+    // watch:{
+    //     cart(newValue){
+    //         console.log(newValue)
+    //         localStorage.setItem('cart',JSON.stringify(newValue));
+    //     }
+    // },
+    watch: {
+        cart:{
+            deep:true,
+            handler(newValue){
+                 localStorage.setItem('cart',JSON.stringify(newValue));
+            }
         }
     },
     methods: {
